@@ -5,18 +5,22 @@ import PdfContainer from './pdf';
 const Grid = (props) => {
     const [pdfs, setPdfs] = useState([]);
     const name = props.name;
+    const qty = props.qty;
     useEffect(() => {
         const temp = [];
-        for (let i = 1; i <= props.qty; i++) {
+        for (let i = 1; i <= qty; i++) {
             temp.push(`pdf/${name} ${i}.pdf`);
         }
 
         setPdfs(temp);
-    }, [name]);
+        return () => {
+            setPdfs([]);
+        }
+    }, [qty, name]);
 
     const jsx = pdfs.map(pdf => {
         return (
-            <PdfContainer qry={props.qry} file={pdf}/>
+            <PdfContainer key={pdf} qry={props.qry} file={pdf}/>
         );
     });
 

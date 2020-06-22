@@ -3,7 +3,6 @@ import {Document, Page} from 'react-pdf';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
-import Fuse from 'fuse.js';
 
 function highlightPattern(text, pattern) {
     const splitText = text.split(pattern);
@@ -74,7 +73,7 @@ const PdfContainer = (props) => {
     const timeout = useRef();
     useEffect(() => {
         clearTimeout(timeout.current);
-        if (!qry) {
+        if (!qry || !lines || !lines.size) {
             setVisible(true);
             return;
         }
@@ -97,29 +96,40 @@ const PdfContainer = (props) => {
             }
 
             setVisible(visible);
+
+            return () => {
+                setLines(new Map());
+                setPage(0);
+                setVisible(true);
+            };
         }, 500);
     }, [qry, lines]);
 
     const [pageCount, setPageCount] = useState(0);
 
     const onLoad = (pdf) => {
-        setLines(new Map());
         setPageCount(pdf.numPages);
-        for (let i = 1; i <= pdf.numPages; i++) {
-            addPage(i);
-            pdf.getPage(i).then(res => {
-                res.getTextContent().then(res2 => {
-                    const text = res2.items.reduce((acc, curr) => acc + " " + curr.str, "");
-                    setLines(prev => {
-                        const map = new Map(prev);
-                        map.set(i, text);
-                        return map;
-                    });
-                }).catch(() => {
-                });
-            }).catch(() => {
-            });
-        }
+        const map = new Map();
+        const collectLines = async () => {
+            try {
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    addPage(i);
+                    const page = await pdf.getPage(i);
+                    const text = await page.getTextContent();
+
+                    if (text.items) {
+                        map.set(i, text.items.reduce((acc, curr) => acc + " " + curr.str, ""));
+                    }
+                }
+            } catch (e) {
+                //ignore
+            }
+        };
+
+        collectLines().then(() => {
+            console.log(map);
+            setLines(map);
+        });
     };
 
     if (!visible) {
