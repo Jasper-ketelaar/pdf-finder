@@ -84,8 +84,7 @@ const PdfContainer = (props) => {
 
             let visible = false;
             let setAgain = true;
-            for (const [textPage, text] of lines) {
-                console.log(text.indexOf("mapping"));
+            for (const [textPage, text] of lines.entries()) {
                 if (text.toLowerCase().indexOf(qry.toLowerCase()) !== -1) {
                     if (setAgain) {
                         setPage(textPage);
@@ -101,7 +100,11 @@ const PdfContainer = (props) => {
         }, 500);
     }, [qry, lines]);
 
+    const [pageCount, setPageCount] = useState(0);
+
     const onLoad = (pdf) => {
+        setLines(new Map());
+        setPageCount(pdf.numPages);
         for (let i = 1; i <= pdf.numPages; i++) {
             addPage(i);
             pdf.getPage(i).then(res => {
@@ -140,6 +143,7 @@ const PdfContainer = (props) => {
                     <Button onClick={prvs(false)} variant='text' color='secondary'>Vorige</Button>
                     <Button onClick={nxt(false)} variant='outlined' color='primary'>Volgende</Button>
                     <Button onClick={nxt(true)} variant='outlined' color='primary'>Volgende match</Button>
+                    <span>{page} of {pageCount}</span>
                 </ButtonGroup>
             </div>
         </Grid>
