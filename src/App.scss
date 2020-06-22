@@ -1,0 +1,29 @@
+.container {
+  .appbar {
+    padding: 1vh;
+  }
+
+  .search {
+    width: 35vw;
+    margin: 0 auto;
+  }
+
+  .pdfgrid {
+    justify-content: center;
+    width: 100%;
+    margin-left: 25px;
+
+    > div {
+      width: 775px;
+      margin-top: 50px;
+    }
+    span {
+
+    }
+    .pdf-container {
+      display: block;
+      border: 1px solid black;
+      width: 775px;
+    }
+  }
+}
