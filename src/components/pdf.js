@@ -85,6 +85,7 @@ const PdfContainer = (props) => {
             let visible = false;
             let setAgain = true;
             for (const [textPage, text] of lines) {
+                console.log(text.indexOf("mapping"));
                 if (text.toLowerCase().indexOf(qry.toLowerCase()) !== -1) {
                     if (setAgain) {
                         setPage(textPage);
@@ -101,7 +102,7 @@ const PdfContainer = (props) => {
     }, [qry, lines]);
 
     const onLoad = (pdf) => {
-        for (let i = 0; i < pdf.numPages; i++) {
+        for (let i = 1; i <= pdf.numPages; i++) {
             addPage(i);
             pdf.getPage(i).then(res => {
                 res.getTextContent().then(res2 => {
