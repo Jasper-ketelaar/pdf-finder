@@ -13,9 +13,6 @@ const Grid = (props) => {
         }
 
         setPdfs(temp);
-        return () => {
-            setPdfs([]);
-        }
     }, [qty, name]);
 
     const jsx = pdfs.map(pdf => {

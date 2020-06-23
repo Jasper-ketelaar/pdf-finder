@@ -3,8 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e8770bbc-f97c-46ee-b89a-ffa14d59bc7b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/pdf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pdf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +83,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1592829032681</updated>
-      <workItem from="1592829033920" duration="12850000" />
+      <workItem from="1592829033920" duration="16802000" />
     </task>
     <servers />
   </component>
@@ -86,25 +91,29 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="885" height="276" key="GridCell.Tab.0.bottom" timestamp="1592844651584">
+    <state width="885" height="276" key="GridCell.Tab.0.bottom" timestamp="1592870040571">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
-    <state width="885" height="276" key="GridCell.Tab.0.bottom/0.23.1792.1024@0.23.1792.1024" timestamp="1592844651584" />
-    <state width="885" height="276" key="GridCell.Tab.0.center" timestamp="1592844651583">
+    <state width="885" height="276" key="GridCell.Tab.0.bottom/0.23.1792.1024@0.23.1792.1024" timestamp="1592870040571" />
+    <state width="885" height="276" key="GridCell.Tab.0.center" timestamp="1592870040570">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
-    <state width="885" height="276" key="GridCell.Tab.0.center/0.23.1792.1024@0.23.1792.1024" timestamp="1592844651583" />
-    <state width="885" height="276" key="GridCell.Tab.0.left" timestamp="1592844651583">
+    <state width="885" height="276" key="GridCell.Tab.0.center/0.23.1792.1024@0.23.1792.1024" timestamp="1592870040570" />
+    <state width="885" height="276" key="GridCell.Tab.0.left" timestamp="1592870040570">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
-    <state width="885" height="276" key="GridCell.Tab.0.left/0.23.1792.1024@0.23.1792.1024" timestamp="1592844651583" />
-    <state width="885" height="276" key="GridCell.Tab.0.right" timestamp="1592844651584">
+    <state width="885" height="276" key="GridCell.Tab.0.left/0.23.1792.1024@0.23.1792.1024" timestamp="1592870040570" />
+    <state width="885" height="276" key="GridCell.Tab.0.right" timestamp="1592870040571">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
-    <state width="885" height="276" key="GridCell.Tab.0.right/0.23.1792.1024@0.23.1792.1024" timestamp="1592844651584" />
-    <state x="100" y="123" width="1592" height="817" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1592843930534">
+    <state width="885" height="276" key="GridCell.Tab.0.right/0.23.1792.1024@0.23.1792.1024" timestamp="1592870040571" />
+    <state x="100" y="123" width="1592" height="817" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1592869187159">
       <screen x="0" y="23" width="1792" height="1024" />
     </state>
-    <state x="100" y="123" width="1592" height="817" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1024@0.23.1792.1024" timestamp="1592843930534" />
+    <state x="100" y="123" width="1592" height="817" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1024@0.23.1792.1024" timestamp="1592869187159" />
+    <state x="554" y="288" width="683" height="486" key="find.popup" timestamp="1592868985592">
+      <screen x="0" y="23" width="1792" height="1024" />
+    </state>
+    <state x="554" y="288" width="683" height="486" key="find.popup/0.23.1792.1024@0.23.1792.1024" timestamp="1592868985592" />
   </component>
 </project>

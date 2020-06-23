@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { pdfjs } from 'react-pdf';
-import { createMuiTheme } from '@material-ui/core/styles';
+import {pdfjs} from 'react-pdf';
+import {createMuiTheme} from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/blue';
 import common from '@material-ui/core/colors/common';
 import {ThemeProvider} from '@material-ui/styles';
@@ -23,10 +23,8 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-      <ThemeProvider theme={theme}>
-          <App />
-      </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <ThemeProvider theme={theme}>
+        <App/>
+    </ThemeProvider>,
+    document.getElementById('root')
 );

@@ -1,8 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Document, Page} from 'react-pdf';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
+import elastic from 'elasticlunr';
 
 function highlightPattern(text, pattern) {
     const splitText = text.split(pattern);
@@ -22,11 +23,26 @@ function highlightPattern(text, pattern) {
     ] : [...arr, element]), []);
 }
 
+const index = elastic(function() {
+    this.addField('text');
+    this.setRef('page');
+});
+
 const PdfContainer = (props) => {
     const [lines, setLines] = useState(new Map());
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState([]);
     const [visible, setVisible] = useState(true);
+    const [index, setIndex] = useState();
+
+    useEffect(() => {
+        const index = elastic(function() {
+            this.addField('text');
+            this.setRef('page');
+        });
+
+        setIndex(index);
+    }, []);
 
     const addPage = (page) => {
         setPages(prevPages => [...prevPages, page])
@@ -70,39 +86,28 @@ const PdfContainer = (props) => {
     };
 
     const qry = props.qry;
-    const timeout = useRef();
     useEffect(() => {
-        clearTimeout(timeout.current);
         if (!qry || !lines || !lines.size) {
             setVisible(true);
             return;
         }
 
-        timeout.current = setTimeout(() => {
-            setPages([]);
+        setPages([]);
 
-            let visible = false;
-            let setAgain = true;
-            for (const [textPage, text] of lines.entries()) {
-                if (text.toLowerCase().indexOf(qry.toLowerCase()) !== -1) {
-                    if (setAgain) {
-                        setPage(textPage);
-                        setAgain = false;
-                    }
-
-                    addPage(textPage);
-                    visible = true;
-                }
+        let visible = false;
+        let setAgain = true;
+        for (const match of index.search(qry)) {
+            const pageNumber = Number(match.ref);
+            if (setAgain) {
+                setPage(pageNumber);
+                setAgain = false;
             }
 
-            setVisible(visible);
+            addPage(pageNumber);
+            visible = true;
+        }
 
-            return () => {
-                setLines(new Map());
-                setPage(0);
-                setVisible(true);
-            };
-        }, 500);
+        setVisible(visible);
     }, [qry, lines]);
 
     const [pageCount, setPageCount] = useState(0);
@@ -118,7 +123,12 @@ const PdfContainer = (props) => {
                     const text = await page.getTextContent();
 
                     if (text.items) {
-                        map.set(i, text.items.reduce((acc, curr) => acc + " " + curr.str, ""));
+                        const body = text.items.reduce((acc, curr) => acc + " " + curr.str, "");
+                        map.set(i, body);
+                        index.addDoc({
+                            'text': body,
+                            'page': i
+                        })
                     }
                 }
             } catch (e) {
@@ -127,7 +137,6 @@ const PdfContainer = (props) => {
         };
 
         collectLines().then(() => {
-            console.log(map);
             setLines(map);
         });
     };
@@ -147,7 +156,7 @@ const PdfContainer = (props) => {
                           customTextRenderer={makeTextRenderer(qry)}
                     />
                 </Document>
-                <ButtonGroup>
+                <ButtonGroup className={'btngrp'}>
                     <Button onClick={frst} variant='text' color='secondary'>First</Button>
                     <Button onClick={prvs(true)} variant='text' color='secondary'>Vorige Match</Button>
                     <Button onClick={prvs(false)} variant='text' color='secondary'>Vorige</Button>
