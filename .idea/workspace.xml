@@ -3,13 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e8770bbc-f97c-46ee-b89a-ffa14d59bc7b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/pdf/Introduction to the theory of computation_third edition - Michael Sipser.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/public/pdf/Book 1.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/pdf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pdf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1592829032681</updated>
-      <workItem from="1592829033920" duration="16802000" />
+      <workItem from="1592829033920" duration="19586000" />
     </task>
     <servers />
   </component>

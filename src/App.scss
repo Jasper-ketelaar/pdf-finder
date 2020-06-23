@@ -1,3 +1,9 @@
+.backdrop {
+  z-index: 500;
+  position: relative;
+  color: #fff;
+}
+
 .container {
   .appbar {
     padding: 1vh;
@@ -17,13 +23,25 @@
       width: 775px;
       margin-top: 50px;
     }
+
     span {
 
     }
+
     .pdf-container {
       display: block;
       border: 1px solid black;
       width: 775px;
+      position: relative;
+
+      .loader {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+      }
+      .react-pdf__Page__textContent {
+        margin-top: -3px;
+      }
     }
   }
 

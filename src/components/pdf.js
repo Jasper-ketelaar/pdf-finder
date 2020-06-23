@@ -4,15 +4,17 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
 import elastic from 'elasticlunr';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function highlightPattern(text, pattern) {
-    const splitText = text.split(pattern);
+    pattern = pattern.split(' ').join('.*');
+    const splitText = text.split(RegExp(pattern, 'i'));
 
     if (splitText.length <= 1) {
         return text;
     }
 
-    const matches = text.match(pattern);
+    const matches = text.match(RegExp(pattern, 'i'));
 
     return splitText.reduce((arr, element, index) => (matches[index] ? [
         ...arr,
@@ -23,26 +25,28 @@ function highlightPattern(text, pattern) {
     ] : [...arr, element]), []);
 }
 
-const index = elastic(function() {
+function removeTextLayerOffset() {
+    const textLayers = document.querySelectorAll(".react-pdf__Page__textContent");
+    textLayers.forEach(layer => {
+        const { style } = layer;
+        style.top = "0";
+        style.left = "0";
+        style.transform = "";
+    });
+}
+
+const index = elastic(function () {
     this.addField('text');
     this.setRef('page');
 });
 
+const docs = [];
+
 const PdfContainer = (props) => {
-    const [lines, setLines] = useState(new Map());
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState([]);
     const [visible, setVisible] = useState(true);
-    const [index, setIndex] = useState();
-
-    useEffect(() => {
-        const index = elastic(function() {
-            this.addField('text');
-            this.setRef('page');
-        });
-
-        setIndex(index);
-    }, []);
+    const [loading, setLoading] = useState(false);
 
     const addPage = (page) => {
         setPages(prevPages => [...prevPages, page])
@@ -86,8 +90,9 @@ const PdfContainer = (props) => {
     };
 
     const qry = props.qry;
+    const file = props.file;
     useEffect(() => {
-        if (!qry || !lines || !lines.size) {
+        if (!qry || docs.indexOf(file) === -1) {
             setVisible(true);
             return;
         }
@@ -97,7 +102,12 @@ const PdfContainer = (props) => {
         let visible = false;
         let setAgain = true;
         for (const match of index.search(qry)) {
-            const pageNumber = Number(match.ref);
+            const ref = JSON.parse(match.ref);
+            if (ref.file !== file) {
+                continue;
+            }
+
+            const pageNumber = Number(ref.number);
             if (setAgain) {
                 setPage(pageNumber);
                 setAgain = false;
@@ -108,7 +118,7 @@ const PdfContainer = (props) => {
         }
 
         setVisible(visible);
-    }, [qry, lines]);
+    }, [loading, file, qry]);
 
     const [pageCount, setPageCount] = useState(0);
 
@@ -116,6 +126,7 @@ const PdfContainer = (props) => {
         setPageCount(pdf.numPages);
         const map = new Map();
         const collectLines = async () => {
+            setLoading(true);
             try {
                 for (let i = 1; i <= pdf.numPages; i++) {
                     addPage(i);
@@ -127,7 +138,10 @@ const PdfContainer = (props) => {
                         map.set(i, body);
                         index.addDoc({
                             'text': body,
-                            'page': i
+                            'page': JSON.stringify({
+                                file: props.file,
+                                number: i
+                            })
                         })
                     }
                 }
@@ -136,36 +150,47 @@ const PdfContainer = (props) => {
             }
         };
 
-        collectLines().then(() => {
-            setLines(map);
-        });
+        if (docs.indexOf(props.file) === -1) {
+            collectLines().then(() => {
+                setLoading(false);
+                docs.push(props.file);
+            });
+        }
     };
 
     if (!visible) {
         return <></>;
     }
 
-    return (
-        <Grid item xs={6}>
-            <span>{props.file}</span>
-            <div className={'pdf-container'}>
-                <Document file={props.file} onLoadSuccess={onLoad}>
-                    <Page pageNumber={page}
-                          width={775}
+    const loadingStyle = loading ? {
+        opacity: .6
+    } : {};
 
-                          customTextRenderer={makeTextRenderer(qry)}
-                    />
-                </Document>
-                <ButtonGroup className={'btngrp'}>
-                    <Button onClick={frst} variant='text' color='secondary'>First</Button>
-                    <Button onClick={prvs(true)} variant='text' color='secondary'>Vorige Match</Button>
-                    <Button onClick={prvs(false)} variant='text' color='secondary'>Vorige</Button>
-                    <Button onClick={nxt(false)} variant='outlined' color='primary'>Volgende</Button>
-                    <Button onClick={nxt(true)} variant='outlined' color='primary'>Volgende match</Button>
-                    <span>{page} of {pageCount}</span>
-                </ButtonGroup>
-            </div>
-        </Grid>
+    return (
+        <>
+            <Grid item xs={6}>
+                <span>{props.file}</span>
+                <div className={'pdf-container'} style={loadingStyle}>
+
+                    <Document file={props.file} onLoadSuccess={onLoad}>
+                        <Page pageNumber={page}
+                              width={775}
+                                onLoadSuccess={removeTextLayerOffset}
+                              customTextRenderer={makeTextRenderer(qry)}
+                        />
+                    </Document>
+                    {loading && <CircularProgress className={'loader'}/>}
+                    <ButtonGroup className={'btngrp'}>
+                        <Button onClick={frst} variant='text' color='secondary'>First</Button>
+                        <Button onClick={prvs(true)} variant='text' color='secondary'>Vorige Match</Button>
+                        <Button onClick={prvs(false)} variant='text' color='secondary'>Vorige</Button>
+                        <Button onClick={nxt(false)} variant='outlined' color='primary'>Volgende</Button>
+                        <Button onClick={nxt(true)} variant='outlined' color='primary'>Volgende match</Button>
+                        <span>{page} of {pageCount}</span>
+                    </ButtonGroup>
+                </div>
+            </Grid>
+        </>
     )
 };
 

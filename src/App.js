@@ -7,8 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from './components/grid';
 
-const NAMES = ["Lecture", "Exam", "Lab"];
-const AMTS = [8, 3, 11];
+const NAMES = ["Lecture", "Exam", "Lab", "Book"];
+const AMTS = [8, 3, 11, 1];
 
 function App() {
     const [qry, setQry] = useState("");
@@ -43,6 +43,7 @@ function App() {
                 <Tab label="Lectures"/>
                 <Tab label="Examens"/>
                 <Tab label="Lab oefeningen"/>
+                <Tab label='Boek'/>
             </Tabs>
             <Grid name={NAMES[tab]} qry={qry} qty={AMTS[tab]}/>
         </Box>
