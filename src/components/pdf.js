@@ -30,7 +30,7 @@ function highlightPattern(text, pattern) {
 function removeTextLayerOffset() {
     const textLayers = document.querySelectorAll(".react-pdf__Page__textContent");
     textLayers.forEach(layer => {
-        const { style } = layer;
+        const {style} = layer;
         style.top = "0";
         style.left = "0";
         style.transform = "";
@@ -73,10 +73,8 @@ const PdfContainer = (props) => {
 
     function makeTextRenderer(searchText) {
         if (highlighting) {
-            if (searchText.length >= 5) {
-                return function textRenderer(textItem) {
-                    return highlightPattern(textItem.str, searchText);
-                }
+            return function textRenderer(textItem) {
+                return highlightPattern(textItem.str, searchText);
             }
         }
     }
@@ -180,7 +178,7 @@ const PdfContainer = (props) => {
                     <Document file={props.file} onLoadSuccess={onLoad}>
                         <Page pageNumber={page}
                               width={775}
-                                onLoadSuccess={removeTextLayerOffset}
+                              onLoadSuccess={removeTextLayerOffset}
                               customTextRenderer={makeTextRenderer(qry)}
                         />
                     </Document>
