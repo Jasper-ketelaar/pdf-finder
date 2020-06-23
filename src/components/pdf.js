@@ -43,6 +43,7 @@ const index = elastic(function () {
 });
 
 const docs = [];
+const loaded = {};
 
 const PdfContainer = (props) => {
     const [page, setPage] = useState(1);
@@ -103,25 +104,28 @@ const PdfContainer = (props) => {
         setPages([]);
 
         let visible = false;
-        let setAgain = true;
-        for (const match of index.search(qry)) {
+        const newPages = [];
+        const results = index.search(qry);
+        for (const match of results) {
             const ref = JSON.parse(match.ref);
-            if (ref.file !== file) {
+            if (ref.file !== file || (match.score < .4 && results.length > 5)) {
                 continue;
             }
 
             const pageNumber = Number(ref.number);
-            if (setAgain) {
-                setPage(pageNumber);
-                setAgain = false;
-            }
-
-            addPage(pageNumber);
+            newPages.push(pageNumber);
             visible = true;
         }
+        newPages.sort();
+        setPage(newPages.length ? newPages[0] : 1);
+        setPages(newPages);
 
         setVisible(visible);
     }, [loading, file, qry]);
+
+    useEffect(() => {
+
+    }, [file]);
 
     const [pageCount, setPageCount] = useState(0);
 
