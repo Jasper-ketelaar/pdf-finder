@@ -5,6 +5,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
 import elastic from 'elasticlunr';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 function highlightPattern(text, pattern) {
     pattern = pattern.split(' ').join('.*');
@@ -47,6 +49,7 @@ const PdfContainer = (props) => {
     const [pages, setPages] = useState([]);
     const [visible, setVisible] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [highlighting, setHighlighting] = useState(true);
 
     const addPage = (page) => {
         setPages(prevPages => [...prevPages, page])
@@ -69,9 +72,11 @@ const PdfContainer = (props) => {
     };
 
     function makeTextRenderer(searchText) {
-        if (searchText.length >= 5) {
-            return function textRenderer(textItem) {
-                return highlightPattern(textItem.str, searchText);
+        if (highlighting) {
+            if (searchText.length >= 5) {
+                return function textRenderer(textItem) {
+                    return highlightPattern(textItem.str, searchText);
+                }
             }
         }
     }
@@ -186,6 +191,17 @@ const PdfContainer = (props) => {
                         <Button onClick={prvs(false)} variant='text' color='secondary'>Vorige</Button>
                         <Button onClick={nxt(false)} variant='outlined' color='primary'>Volgende</Button>
                         <Button onClick={nxt(true)} variant='outlined' color='primary'>Volgende match</Button>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={highlighting}
+                                    onChange={(evt, checked) => setHighlighting(checked)}
+                                    name="checkedB"
+                                    color="primary"
+                                />
+                            }
+                            label="Highlight"
+                        />
                         <span>{page} of {pageCount}</span>
                     </ButtonGroup>
                 </div>
