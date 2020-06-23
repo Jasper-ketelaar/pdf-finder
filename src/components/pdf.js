@@ -9,7 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 function highlightPattern(text, pattern) {
-    pattern = pattern.split(' ').join('.*');
+    pattern = pattern.split(' ').join('|');
     const splitText = text.split(RegExp(pattern, 'i'));
 
     if (splitText.length <= 1) {
