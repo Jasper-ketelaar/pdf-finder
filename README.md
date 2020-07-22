@@ -8,3 +8,4 @@ storage and query what files you have.
 Code is somewhat messy as it was written in a hurry preparing for my exams,
 might clean it up at some point but don't count on it.
 
+Should look similar to this: ![preview](https://i.imgur.com/SIByZTM.png)
