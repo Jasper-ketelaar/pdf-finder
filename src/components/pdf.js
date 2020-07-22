@@ -108,7 +108,7 @@ const PdfContainer = (props) => {
         const results = index.search(qry);
         for (const match of results) {
             const ref = JSON.parse(match.ref);
-            if (ref.file !== file || (match.score < .4 && results.length > 5)) {
+            if (ref.file !== file || (match.score < .2 && results.length > 5)) {
                 continue;
             }
 

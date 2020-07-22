@@ -7,8 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from './components/grid';
 
-const NAMES = ["Lecture", "Exam", "Lab", "Book"];
-const AMTS = [9, 3, 11, 2];
+const NAMES = ["lecture", "exam", "lab", "Book"];
+const AMTS = [15, 10, 4, 2];
 
 function App() {
     const [qry, setQry] = useState("");

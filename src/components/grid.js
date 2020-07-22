@@ -9,7 +9,7 @@ const Grid = (props) => {
     useEffect(() => {
         const temp = [];
         for (let i = 1; i <= qty; i++) {
-            temp.push(`pdf/${name} ${i}.pdf`);
+            temp.push(`pdf/${name}-${i}.pdf`);
         }
 
         setPdfs(temp);
