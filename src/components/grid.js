@@ -6,6 +6,7 @@ const Grid = (props) => {
     const [pdfs, setPdfs] = useState([]);
     const name = props.name;
     const qty = props.qty;
+    console.log("HEllo" + qty)
     useEffect(() => {
         const temp = [];
         for (let i = 1; i <= qty; i++) {
