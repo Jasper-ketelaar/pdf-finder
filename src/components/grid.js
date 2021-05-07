@@ -6,6 +6,7 @@ const Grid = (props) => {
     const [pdfs, setPdfs] = useState([]);
     const name = props.name;
     const qty = props.qty;
+    const qry = props.qry
     useEffect(() => {
         const temp = [];
         for (let i = 1; i <= qty; i++) {
@@ -15,11 +16,17 @@ const Grid = (props) => {
         setPdfs(temp);
     }, [qty, name]);
 
-    const jsx = pdfs.map(pdf => {
-        return (
-            <PdfContainer key={pdf} qry={props.qry} file={pdf}/>
-        );
-    });
+    const [jsx, setJsx] = useState([]);
+    useEffect(() => {
+        const jsx = pdfs.map(pdf => {
+            return (
+                <PdfContainer key={pdf} qry={props.qry} file={pdf}/>
+            );
+        });
+
+        setJsx(jsx);
+    }, [pdfs, qry])
+
 
     return (
         <MuiGrid

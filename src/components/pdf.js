@@ -62,15 +62,28 @@ const PdfContainer = (props) => {
 
     const prvs = (bool) => () => {
         if (!bool) {
-            setPage(page => page - 1);
+            setPage(page => Math.max(page - 1, 1));
             return;
         }
+        let breaking = false
+        let pageSet = -1;
         pages.forEach((pageNumber, index) => {
-            if (index > 0 && pageNumber === page) {
-                setPage(pages[index - 1]);
+            if (breaking) {
+                return;
             }
+
+            if (pageSet > pageNumber) {
+                breaking = true;
+                setPage(pages[index - 1])
+            } else if (page > pageNumber) {
+                setPage(pageNumber);
+                breaking = true;
+            } else {
+                pageSet = pageNumber;
+            }
+
         });
-    };
+    }
 
     function makeTextRenderer(searchText) {
         if (highlighting) {
@@ -82,13 +95,15 @@ const PdfContainer = (props) => {
 
     const nxt = (bool) => () => {
         if (!bool) {
-            setPage(page => page + 1);
+            setPage(page => Math.min(page + 1, pageCount));
             return;
         }
 
-        pages.forEach((pageNumber, index) => {
-            if (index < pages.length - 1 && pageNumber === page) {
-                setPage(pages[index + 1]);
+        let breaking = false;
+        pages.forEach((pageNumber) => {
+            if (!breaking && pageNumber > page) {
+                setPage(pageNumber);
+                breaking = true;
             }
         });
     };
@@ -130,7 +145,7 @@ const PdfContainer = (props) => {
     const [pageCount, setPageCount] = useState(0);
 
     const onLoad = (pdf) => {
-        setPageCount(pdf.numPages);
+
         const map = new Map();
         const collectLines = async () => {
             setLoading(true);
@@ -152,6 +167,7 @@ const PdfContainer = (props) => {
                         })
                     }
                 }
+
             } catch (e) {
                 //ignore
             }
@@ -163,6 +179,7 @@ const PdfContainer = (props) => {
                 docs.push(props.file);
             });
         }
+        setPageCount(pdf.numPages);
     };
 
     if (!visible) {
